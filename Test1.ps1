@@ -1,1 +1,1 @@
-Get-Service
+Get-Service -Name Spooler
