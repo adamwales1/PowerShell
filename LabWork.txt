@@ -214,3 +214,52 @@ get-aduser -filter *  -Properties city,department | Where-Object {$_.city -eq "l
 get-aduser -filter *  -Properties city,department | Where-Object {$_.city -eq "london" -and $_.department -eq 'IT'} |
     sort-object -Property name |
     select-object -Property name,city,department,office
+    
+Get-ADUser -Filter * -Properties Department,City,Office | 
+Where-Object {$_.Department -eq ‘IT’ -and $_.City -eq ‘London’} | 
+Select-Object -Property Name,Department,City,Office | 
+Sort-Object -Property Name |
+ConvertTo-Html |
+Out-File e:\UserReport.html
+
+$CSS = @'
+<style>
+
+table {border:1pt solid black;width:100%;border-collapse:collapse;}
+
+tr,td {border:1pt solid black;border-collapse;}
+
+th {border:1pt solid black;background-color:green;border-collapse:collapse;}
+
+<\style>
+
+
+'@
+
+
+
+
+
+Get-ADUser -Filter * -Properties Department,City,Office | 
+Where-Object {$_.Department -eq ‘IT’ -and $_.City -eq ‘London’} | 
+Select-Object -Property Name,Department,City,Office | 
+Sort-Object -Property Name |
+ConvertTo-Html -PreContent 'USERS' -head $CSS |
+Out-File e:\UserReport.html
+
+
+Get-Command *XML*
+
+Get-ADUser -Filter * -Properties Department,City,Office | 
+Where-Object {$S_.Department -eq 'IT' -and $_.City -eq 'London'} | 
+Sort-Object -Property Name | 
+Select-Object -Property Name,Department,City,Office |
+Export-Clixml E:\UserReport.xml
+
+Get-Command *csv*
+
+Get-ADUser -Filter * -Properties Department,City,Office | 
+Where-Object {$_.Department -eq 'IT' -and $_.City -eq 'London'} | 
+Sort-Object -Property Name | 
+Select-Object -Property Name,Department,City,Office |
+Export-Csv E:\UserReport.csv -NoTypeInformation
